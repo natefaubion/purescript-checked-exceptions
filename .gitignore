@@ -1,0 +1,10 @@
+/bower_components/
+/node_modules/
+/.pulp-cache/
+/output/
+/.psc*
+/.psa*
+/.purs*
+/.vscode
+/package-lock.json
+/examples/*/app.js
