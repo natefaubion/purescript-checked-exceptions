@@ -49,4 +49,4 @@ safe
   . Functor m
   ⇒ ExceptV () m a
   → m a
-safe = unwrap >>> either case_ id
+safe = unwrap >>> map (either case_ id)
