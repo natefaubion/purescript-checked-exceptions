@@ -14,10 +14,9 @@ module Control.Monad.Except.Checked
 import Prelude
 
 import Control.Monad.Except (ExceptT, lift, throwError)
-import Data.Either (either, fromRight)
+import Data.Either (either)
 import Data.Newtype (unwrap)
-import Data.Variant (class VariantMatchCases, Variant, onMatch)
-import Partial.Unsafe (unsafePartial)
+import Data.Variant (class VariantMatchCases, Variant, case_, onMatch)
 import Type.Row (class RowToList)
 
 type ExceptV exc = ExceptT (Variant exc)
@@ -50,4 +49,4 @@ safe
   . Functor m
   ⇒ ExceptV () m a
   → m a
-safe = unsafePartial $ unwrap >>> map fromRight
+safe = unwrap >>> map (either case_ id)
