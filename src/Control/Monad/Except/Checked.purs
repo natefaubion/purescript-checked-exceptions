@@ -17,7 +17,7 @@ import Control.Monad.Except (ExceptT, lift, throwError)
 import Data.Either (either)
 import Data.Newtype (unwrap)
 import Data.Variant (class VariantMatchCases, Variant, case_, onMatch)
-import Type.Row (class RowToList)
+import Type.Row (class RowToList, class Union)
 
 type ExceptV exc = ExceptT (Variant exc)
 
@@ -49,4 +49,4 @@ safe
   . Functor m
   ⇒ ExceptV () m a
   → m a
-safe = unwrap >>> map (either case_ id)
+safe = unwrap >>> map (either case_ identity)
