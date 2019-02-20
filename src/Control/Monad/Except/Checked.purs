@@ -9,14 +9,21 @@ module Control.Monad.Except.Checked
   ( ExceptV
   , handleError
   , safe
+  , throw
+  , recordToVariant
   ) where
 
 import Prelude
 
+import Control.Monad.Error.Class (class MonadThrow)
 import Control.Monad.Except (ExceptT, lift, throwError)
 import Data.Either (either)
 import Data.Newtype (unwrap)
-import Data.Variant (class VariantMatchCases, Variant, case_, onMatch)
+import Data.Symbol (class IsSymbol, SProxy(..))
+import Data.Variant (class VariantMatchCases, Variant, case_, expand, inj, onMatch)
+import Prim.Row as R
+import Prim.RowList as RL
+import Record (get)
 import Type.Row (class RowToList, class Union)
 
 type ExceptV exc = ExceptT (Variant exc)
@@ -50,3 +57,33 @@ safe
   ⇒ ExceptV () m a
   → m a
 safe = unwrap >>> map (either case_ identity)
+
+-- | Throws an exception into an `ExceptV`. Mostly for syntax sugar.
+-- |
+-- | ```purescript
+-- | throw { httpNotFound: unit }
+-- | ```
+throw :: forall a smallE bigE _1 m sym typ.
+  MonadThrow (Variant bigE) m =>
+  Union smallE _1 bigE =>
+  IsSymbol sym =>
+  R.Cons sym typ () smallE =>
+  RowToList smallE (RL.Cons sym typ RL.Nil) =>
+  Record smallE ->
+  m a
+throw v = throwError $ expand $ recordToVariant v
+
+-- | Allows for syntax sugar. A single-element `Record` will be transformed into
+-- | a `Variant`.
+-- |
+-- | ```purescript
+-- | recordToVariant { foo: "bar" } == inj (SProxy :: SProxy "foo") "bar"
+-- | ```
+recordToVariant :: forall r sym typ.
+  IsSymbol sym =>
+  R.Cons sym typ () r =>
+  RowToList r (RL.Cons sym typ RL.Nil) =>
+  Record r ->
+  Variant r
+recordToVariant record =
+  inj (SProxy :: SProxy sym) $ get (SProxy :: SProxy sym) record
