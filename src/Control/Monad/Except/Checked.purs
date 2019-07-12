@@ -16,7 +16,7 @@ import Prelude
 import Control.Monad.Except (ExceptT, lift, throwError)
 import Data.Either (either)
 import Data.Newtype (unwrap)
-import Data.Variant (class VariantMatchCases, Variant, case_, onMatch)
+import Data.Variant (class VariantMatchCases, Variant, case_, match, onMatch)
 import Prim.Row (class Union)
 import Prim.RowList (class RowToList)
 
@@ -51,3 +51,16 @@ safe
   ⇒ ExceptV () m a
   → m a
 safe = unwrap >>> map (either case_ identity)
+
+-- | Similar to handleError, except it handles all errors. Has the benefit that
+-- | you can execute error handlers in the parent monad `m`.
+handleErrors
+  ∷ ∀ m handlers excHandled excIn rl a
+  . RowToList handlers rl
+  ⇒ VariantMatchCases rl excHandled (m a)
+  ⇒ Union excHandled () excIn
+  ⇒ Monad m
+  ⇒ { | handlers }
+  → ExceptV excIn m a
+  → m a
+handleErrors cases = unwrap >=> either (match cases) pure
