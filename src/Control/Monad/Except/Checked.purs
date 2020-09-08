@@ -8,6 +8,7 @@
 module Control.Monad.Except.Checked
   ( ExceptV
   , handleError
+  , handleErrors
   , safe
   ) where
 
