@@ -15,8 +15,37 @@
     "output"
   ],
   "dependencies": {
-    "purescript-prelude": "^4.1.1",
-    "purescript-transformers": "^4.2.0",
-    "purescript-variant": "^6.0.1"
+    "purescript-prelude": "^5.0.0",
+    "purescript-transformers": "^5.1.0",
+    "purescript-variant": "^7.0.2"
+  },
+  "resolutions": {
+    "purescript-control": "^5.0.0",
+    "purescript-distributive": "^5.0.0",
+    "purescript-effect": "^3.0.0",
+    "purescript-exceptions": "^5.0.0",
+    "purescript-either": "^5.0.0",
+    "purescript-bifunctors": "^5.0.0",
+    "purescript-invariant": "^5.0.0",
+    "purescript-foldable-traversable": "^5.0.0",
+    "purescript-orders": "^5.0.0",
+    "purescript-identity": "^5.0.0",
+    "purescript-lazy": "^5.0.0",
+    "purescript-maybe": "^5.0.0",
+    "purescript-newtype": "^4.0.0",
+    "purescript-tailrec": "^5.0.0",
+    "purescript-partial": "^3.0.0",
+    "purescript-refs": "^5.0.0",
+    "purescript-tuples": "^6.0.0",
+    "purescript-type-equality": "^4.0.0",
+    "purescript-unfoldable": "^5.0.0",
+    "purescript-unsafe-coerce": "^5.0.0",
+    "purescript-lists": "^6.0.0",
+    "purescript-nonempty": "^6.0.0",
+    "purescript-record": "^3.0.0",
+    "purescript-functions": "^5.0.0",
+    "purescript-enums": "^5.0.0",
+    "purescript-gen": "^3.0.0",
+    "purescript-prelude": "^5.0.0"
   }
 }
