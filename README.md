@@ -95,13 +95,13 @@ And add constructors which lift them into `Variant`:
 
 ```purescript
 httpServerError ∷ ∀ r. String → Variant (HttpServerError + r)
-httpServerError = inj (SProxy ∷ SProxy "httpServerError")
+httpServerError = inj (Proxy ∷ Proxy "httpServerError")
 
 httpNotFound ∷ ∀ r. Variant (HttpNotFound + r)
-httpNotFound = inj (SProxy ∷ SProxy "httpNotFound") unit
+httpNotFound = inj (Proxy ∷ Proxy "httpNotFound") unit
 
 httpOther ∷ ∀ r. Int → String → Variant (HttpOther + r)
-httpOther status body = inj (SProxy ∷ SProxy "httpOther") { status, body }
+httpOther status body = inj (Proxy ∷ Proxy "httpOther") { status, body }
 ```
 
 We can then define a helpful alias for all of our HTTP exceptions:
@@ -122,10 +122,10 @@ type FsPermissionDenied r = (fsPermissionDenied ∷ Unit | r)
 type FsFileNotFound r     = (fsFileNotFound ∷ Path | r)
 
 fsPermissionDenied ∷ ∀ r. Variant (FsPermissionDenied + r)
-fsPermissionDenied = inj (SProxy ∷ SProxy "fsPermissionDenied") unit
+fsPermissionDenied = inj (Proxy ∷ Proxy "fsPermissionDenied") unit
 
 fsFileNotFound ∷ ∀ r. Path → Variant (FsFileNotFound + r)
-fsFileNotFound = inj (SProxy ∷ SProxy "fsFileNotFound")
+fsFileNotFound = inj (Proxy ∷ Proxy "fsFileNotFound")
 
 type FsError r =
   ( FsPermissionDenied
