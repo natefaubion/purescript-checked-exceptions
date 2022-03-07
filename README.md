@@ -77,7 +77,7 @@ defined them.
 We'll start with a little bit of sugar (this helps the types go down easy):
 
 ```purescript
-type RowApply (f :: # Type -> # Type) (a :: # Type) = f a
+type RowApply (f :: Row Type -> Row Type) (a :: Row Type) = f a
 
 infixr 0 type RowApply as +
 ```
@@ -228,3 +228,4 @@ getPureScriptSafe =
     , fsPermissionDenied ...
     }
 ```
+
